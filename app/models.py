@@ -3,6 +3,7 @@ import re
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 ARTICLE_STATUS = (("draft", "draft"), ("inprogress", "in progress"), ("published", "published"))
 
@@ -25,6 +26,7 @@ class Article(models.Model):
     status = models.CharField(max_length=50, choices=ARTICLE_STATUS, default="draft")
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="articles")
 
     def __str__(self) -> str:
         """Return a string representation of the Article."""
