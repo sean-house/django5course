@@ -19,12 +19,15 @@ Including another URLconf
 import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 
 from django5course import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("articles/", include("app.urls")),
+    path("accounts/", include("allauth.urls")),
+    path("",RedirectView.as_view(pattern_name="home")),
 ]
 
 if settings.DEBUG:
