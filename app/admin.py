@@ -19,20 +19,20 @@ class CustomUserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Personal info", {"fields": ("first_name", "last_name",)}),
+        ("Personal info", {"fields": ("first_name", "last_name")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "is_superuser", "groups", "user_permissions")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         ("Information", {
-            "classes": ("wide", "extrapretty", ),
-            "fields": ("email", "password1", "password2")
+            "classes": ("wide", "extrapretty" ),
+            "fields": ("email", "password1", "password2"),
             }),
         ("Personal info", {
             "classes": ("wide", "extrapretty", "collapse"),
-            "fields": ("first_name", "last_name",)}),
+            "fields": ("first_name", "last_name")}),
         ("Permissions", {
-            "classes": ("wide", "extrapretty",),
+            "classes": ("wide", "extrapretty"),
             "fields": ("is_staff", "is_active", "is_superuser", "groups", "user_permissions")}),
     )
     list_display = ("email", "is_staff", "is_active")
