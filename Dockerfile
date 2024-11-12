@@ -15,7 +15,8 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry install
 
 COPY . .
+RUN chmod +x start-django.sh
 
 EXPOSE 8000
 
-ENTRYPOINT [ "poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+ENTRYPOINT [ "/code/start-django.sh" ]
