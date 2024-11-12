@@ -20,7 +20,18 @@ class UserProfile(AbstractUser):
     objects = UserProfileManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = []  # noqa: RUF012
+
+    @property
+    def article_count(self):  # noqa: ANN201
+        """Return the number of articles created by the user."""
+        return self.articles.count()
+
+    @property
+    def written_words(self):  # noqa: ANN201
+        """Return the total number of words written by the user."""
+        return self.articles.aggregate(models.Sum("word_count"))["word_count__sum"] or 0
+
 
 
 
@@ -28,10 +39,12 @@ class Article(models.Model):
     """Model for the Article."""
 
     class Meta:
+        """Meta class for the Article model."""
+
         verbose_name = _("article")
         verbose_name_plural = _("articles")
 
-    title = models.CharField(verbose_name=_("title"),
+    title = models.CharField(verbose_name=_("title"),  # noqa: DJ012
                              max_length=50)
     content = models.TextField(verbose_name=_("content"),
                                blank=True, default="")
