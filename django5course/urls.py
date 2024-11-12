@@ -16,7 +16,6 @@ Including another URLconf
 
 """
 
-import debug_toolbar
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
@@ -31,4 +30,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns = [path("__debug__/", include(debug_toolbar.urls)), *urlpatterns]
+    urlpatterns = [
+        path("__debug__/", include("debug_toolbar.urls")),
+        path("__reload__/", include("django_browser_reload.urls")),
+        *urlpatterns,
+    ]

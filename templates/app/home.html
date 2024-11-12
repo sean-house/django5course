@@ -3,21 +3,32 @@
 
 <body>
     {% block content %}
-    <h1>Articles</h1>
+    <main class="max-w-7xl mx-auto mt-10 p-2 md:p-4 lg:p-10">
+        <h1 class="title mb-4">Welcome</h1>
 
-    <p>To date you have written {{ user.article_count| intcomma }} 
-        article{{ user.article_count | pluralize }}, 
-        with a total of {{ user.written_words | intcomma }} words.<p>
+        <p class="text-xl mb-4">To date you have written {{ user.article_count| intcomma }} 
+            article{{ user.article_count | pluralize }}, 
+            with a total of {{ user.written_words | intcomma }} words.<p>
 
-    <a href="{% url 'create_article' %}">Create article</a>
+        <a class="button primary inline-block w-full sm:w-auto text-center mb-6" href="{% url 'create_article' %}">Create new article</a>
 
-    {% if articles%}
-    <ul>
-        {% for article in articles %}
-        <li><a href="{% url 'update_article' article.id %}">{{ article.title }}</a> with {{ article.word_count }} word{{ article.word_count | pluralize}}.</li>
-        {% endfor %}
-    </ul>
-    {% else %}
-        <p>You have no articles at this point.</p>
-    {% endif %}
+        <h2 class="subtitle mb-6">Your latest articles</h2>
+        {% if articles%}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <a 
+                    class="text-2xl flex items-center" 
+                    href="{% url 'update_article' article.id %}">
+                    {{ article.title }}
+                    <span class="ml-2 px-4 py-0.5 text-xs rounded-sm uppercase bg-gray-200">{{ article.status }}</span>
+                    </a>
+                    <p class="text-sm text-gray-600">{{ article.word_count }} word{{ article.word_count | pluralize}}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>You have no articles at this point.</p>
+        {% endif %}
+    </main>
     {% endblock content %}
