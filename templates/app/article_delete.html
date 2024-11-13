@@ -1,10 +1,16 @@
 {% extends "app/base.html" %}
 {% block content %}
-    <h1>Delete Article</h1>
-    <p>Are you sure you want to delete {{article.title }}</p>
-    <form method="POST">
+<main class="max-w-2xl mx-auto flex flex-col items-center mt-10">
+    <h1 class="subtitle">Delete Article</h1>
+    <p class="text-lg mb-6">Are you sure you want to delete "{{article.title }}"?</p>
+    <form method="POST" class="flex items-center gap-4">
         {% csrf_token %}
-        <button type="submit">Delete</button>
+        <button class="button danger" type="submit">
+            {% include "svgs/icon-trash.svg" with class="inline-block w-4 h-4 mr-2 mt-[-2px]" %}Yes, delete it
+        </button>
+    <a class="button secondary" href="{% url 'home' %}">
+        {% include "svgs/icon-arrow-left.svg" with class="inline-block w-6 h-6 mr-1 mt-[-2px]" %}No, take me back
+    </a>
     </form>
-    <a href="{% url 'home' %}">No take me back</a>
+</main>
 {% endblock content %} 
