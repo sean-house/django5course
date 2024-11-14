@@ -37,3 +37,7 @@
 .EasyMDEContainer:has(textarea:focus), textarea:focus {
     @apply ring-1 ring-sky-500 border-sky-500;
 }
+
+.form-field input {
+    @apply w-full rounded-md p-2;
+}
