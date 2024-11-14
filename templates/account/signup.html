@@ -18,41 +18,58 @@
                     <div class="mt-6">
                         <form method="POST" class="space-y-6 mb-4">
                             {% csrf_token %}
+                            {% if form.email.errors %}
+                                <div class="error [&>ul]:space-y-2"> <!-- This element, direct children of type ul-->
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
                             <div>
                                 <label class="sr-only" for="{{ form.email.id_for_label}}">Email</label>
                                 <div class="form-field">
                                     {% render_field form.email class="block text-black shadow-sm focus:ring-sky-600 focus:border-sky-600 text-sm border-gray-300" %}
                                 </div>
                             </div>
-                            <div>
+                            {% if form.password1.errors %}
+                                <div class="error [&>ul]:space-y-2"> <!-- This element, direct children of type ul-->
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="space-y-2">
                                 <label class="sr-only" for="{{ form.password1.id_for_label}}">Password</label>
                                 <div class="form-field">
                                     {% render_field form.password1 class="block text-black shadow-sm focus:ring-sky-600 focus:border-sky-600 text-sm border-gray-300" %}
                                 </div>
+                                <details class="text-sm border border-sky-700 rounded-md [&_svg]:open:rotate-90">  <!-- Collapsable section for password requirements  -->
+                                    <summary class="px-2 py-1 flex justify-between items-center list-none cursor-pointer bg-sky-700">
+                                        <div>Password requirements</div>
+                                        <span>{% include "svgs/chevron-down.svg" with class="w-5 h-5" %}</span>
+                                    </summary>
+                                    <div class="px-2 py-1 mt-2 min-w-full [&>ul]:space-y-1">
+                                        {{ form.password1.help_text | safe }}
+                                    </div>
+                                </details>
                             </div>
+                            {% if form.password2.errors %}
+                                <div class="error [&>ul]:space-y-2"> <!-- This element, direct children of type ul-->
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
                             <div>
                                 <label class="sr-only" for="{{ form.password2.id_for_label}}">Password repeat</label>
                                 <div class="form-field">
                                     {% render_field form.password2 class="block text-black shadow-sm focus:ring-sky-600 focus:border-sky-600 text-sm border-gray-300" %}
                                 </div>
                             </div>
-                            {% if form.errors %}
-                                {% for field, errors in form.errors.items %}
-                                    {% for error in errors %}
-                                        <div class="p-2 my-2 text-sm text-red-700 bg-red-50 rounded-md border-red-300">
-                                            {{ error }}
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-                            {% endif %}
                             <div class="">
                                 <p class="text-sm text-center">Already have an account? <a class="font-bold hover:underline" href="{% url 'account_login' %}">Sign in</a> instead</p>
                                 <button type="submit" class="button primary w-full mt-2 text-sm">Create your account</button>
                             </div>
                         </form>
-                        {% if SOCIALACCOUNT_ENABLED %}
-                            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-                        {% endif %}
+                        <div class=space-y-4>
+                            {% if SOCIALACCOUNT_ENABLED %}
+                                {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="px-4 py-6 bg-sky-700 sm:px-10 rounded-b-lg">
