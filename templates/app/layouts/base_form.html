@@ -3,14 +3,14 @@
 {% load widget_tweaks %}
 
 {% block base_content %}
-<main class="max-w-7xl mx-auto mt-10"
-    <form method="POST">
+<main class="max-w-7xl mx-auto mt-10">
+    <form method="POST" x-data="{articleStatus: ''}">
         {% csrf_token %}
         <div class="mb-4">
             {% render_field form.title class="text-4xl w-full rounded-md border-2 border-gray-200 focus:ring-1 focus:ring-sky-600 focus:border-sky-600" placeholder="Write a title for your article" %}
         </div>
         <div class="flex gap-10 mb-10 intems-center">
-            {% render_field form.status class="text-sm border-none rounded-sm uppercase"%}
+            {% render_field form.status class="text-sm border-none rounded-sm uppercase" x-bind::class="`article-status-${articleStatus}`" x-model.fill="articleStatus" %}
             {% block article_stats %}
 
             {% endblock article_stats%}
@@ -25,19 +25,21 @@
 
         {% block buttons %}
 
-        {% endblock buttons%}
+        {% endblock buttons %}
     </form>
 </main>
 {% endblock base_content %}
 
 {% block page-js %}
-<script>
-    const contentMarkdown = new EasyMDE(
-        {
-            element: document.getElementById("id_content"),
-            spellChecker: false,
-            forceSync: true
-        }
-    );
-</script>
+    <script>
+        const contentMarkdown = new EasyMDE(
+            {
+                element: document.getElementById("id_content"),
+                toolbar: false,
+                status: false,
+                spellChecker: false,
+                forceSync: true
+            }
+        );
+    </script>
 {% endblock page-js %}
