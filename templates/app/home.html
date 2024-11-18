@@ -15,6 +15,18 @@
         <a class="button primary inline-block w-full sm:w-auto text-center mb-6" href="{% url 'create_article' %}">Create new article</a>
 
         <h2 class="subtitle mb-6">Your latest articles</h2>
+
+        <form method="GET" class="flex flex-col sm:flex-row gap-3 form-field mb-4">
+            <input type="search" name="search" placeholder="Search article titles"
+                value="{{ request.GET.search }}"
+                class="text-black shadow-sm focus:ring-sky-500 focus:border-sky-500 sm:text-sm rounded-md">
+            <button type="submit" class="flex gap-1 button secondary items-center">
+                {% include "svgs/magnifier.svg" with class="w-4 h-4 mr-2" %}
+                Search
+            </button>
+            <a href="{% url 'home' %}" class="button secondary text-center">Clear&nbspsearch</a>
+        </form>
+
         {% if articles%}
         <ul>
             {% for article in articles %}
@@ -34,13 +46,13 @@
         <div class="flex flex-row items-center mt-4">
             {% if is_paginated %}
                 {% if page_obj.has_previous %}
-                <a class = "mx-2" href="?page={{ page_obj.previous_page_number }}">
+                <a class = "mx-2" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
                     {% include "svgs/chevron-left.svg" with class="h-7 w-7 border border-black rounded-md p-1" %}
                 </a>
                 {% endif %}
                 <span>Page {{ page_obj.number }} of {{ paginator.num_pages }}</span>
                 {% if page_obj.has_next %}
-                <a class = "mx-2" href="?page={{ page_obj.next_page_number }}">
+                <a class = "mx-2" href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
                     {% include "svgs/chevron-right.svg" with class="h-7 w-7 border border-black rounded-md p-1" %}
                 </a>
                 {% endif %}

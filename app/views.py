@@ -23,8 +23,11 @@ class ArticleListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         """Override get_queryset to filter by creator."""
-        queryset = super().get_queryset().order_by("-created_at").filter(creator=self.request.user)
-        return queryset
+        search = self.request.GET.get("search")
+        queryset = super().get_queryset().filter(creator=self.request.user)
+        if search:
+            queryset = queryset.filter(title__search=search)
+        return queryset.order_by("-created_at")
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     """View for creating an Article."""
