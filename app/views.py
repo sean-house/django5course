@@ -2,8 +2,10 @@
 
 from typing import Any
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
@@ -17,10 +19,12 @@ class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
     template_name = "app/home.html"
     context_object_name = "articles"
+    paginate_by = 5
 
     def get_queryset(self) -> QuerySet[Any]:
         """Override get_queryset to filter by creator."""
-        return Article.objects.filter(creator=self.request.user).order_by("-created_at")
+        queryset = super().get_queryset().order_by("-created_at").filter(creator=self.request.user)
+        return queryset
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     """View for creating an Article."""
@@ -61,3 +65,8 @@ class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self) -> bool:
         """Override test_func to check if the user is the creator of the Article."""
         return self.request.user == self.get_object().creator
+
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        """Override post to set the success message."""
+        messages.success(self.request, "Article deleted successfully.", extra_tags="destructive")
+        return super().post(request, *args, **kwargs)
