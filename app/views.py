@@ -1,5 +1,6 @@
 """Views for the app."""
 
+import time
 from typing import Any
 
 from django.contrib import messages

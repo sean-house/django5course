@@ -30,16 +30,14 @@
 </main>
 {% endblock base_content %}
 
-{% block page-js %}
+{% block page_js %}
     <script>
         const contentMarkdown = new EasyMDE(
             {
                 element: document.getElementById("id_content"),
-                toolbar: false,
-                status: false,
-                spellChecker: false,
+                spellChecker: true,
                 forceSync: true
             }
         );
     </script>
-{% endblock page-js %}
+{% endblock page_js %}

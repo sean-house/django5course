@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
     {% block extra_head %}
     {% endblock extra_head %}
 </head>
@@ -63,7 +64,12 @@
     {% endblock body  %}
     {% block extra_body %}
     {% endblock extra_body %}
-    {% block page-js %}
-    {% endblock page-js %}
+    {% block page_js %}
+    {% endblock page_js %}
 </body>
+{% block footer %}
+    <footer class="text-sm text-gray-700 w-full fixed bottom-0 mx-2 lg:mx-10">
+    From Udemy course <a class="underline" href="">https://www.udemy.com/course/full-stack-django</a>
+    </footer>
+{% endblock footer %}
 </html>
