@@ -9,6 +9,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 import dj_database_url  # Enables use of Postgress database with URL
@@ -54,6 +55,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.github",
     "django_browser_reload",
     "widget_tweaks",
+    "anymail",
 ]
 
 PROJECT_APPS = [
@@ -136,6 +138,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Mail verification using Mailgun
+DEFAULT_FROM_EMAIL = os.getenv("MAILGUN_EMAIL", "admin@localhost")
+ANYMAIL = {
+    "MAILGUN_API_KEY": os.getenv("MAILGUN_API_KEY", "None"),
+    "MAILGUN_API_URL": os.getenv("MAILGUN_API_URL", "None"),
+    "MAILGUN_SENDER_DOMAIN": os.getenv("MAILGUN_SENDER_DOMAIN", "None"),
+    "SEND_DEFAULTS": {"tags": ["django5course"]},
+    }
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+
+
 # Login and logout redirects - necessary since we don't want users to go to /accounts/profile (which is the default)
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "account_login"
@@ -145,7 +158,8 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True  # Don't require users to confirm their password twice if verifying
 
 
 # Internationalization
