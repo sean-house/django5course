@@ -3,6 +3,8 @@ db.sqlite3
 *.pyc
 .env.docker
 node_modules/
+staticfiles/
+*/__pycache__/
 output.css
 
 

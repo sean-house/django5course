@@ -14,6 +14,8 @@ from pathlib import Path
 
 import dj_database_url  # Enables use of Postgress database with URL
 
+ENV_STATE = os.getenv("ENV_STATE", "dev")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,12 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-fj-8&f!@i&ijya#b^5+%6m0wqu1i#@v*d+ox9(#)g@x#eyuv&1"  # noqa: S105
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
+ADMIN_URL = os.getenv("ADMIN_URL", "admin/")
+
+if ENV_STATE == "production":
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Adding capability for django-allauth to work
 AUTHENTICATION_BACKENDS = [
@@ -53,9 +61,9 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
-    "django_browser_reload",
     "widget_tweaks",
     "anymail",
+    "whitenoise.runserver_nostatic",
 ]
 
 PROJECT_APPS = [
@@ -66,6 +74,7 @@ INSTALLED_APPS = [*DJANGO_APPS, *THIRD_PARTY_APPS, *PROJECT_APPS]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -73,13 +82,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 # Debug toolbar settings - needs IP address of host when running in a docker container
 if DEBUG:
-    INSTALLED_APPS = [*INSTALLED_APPS, "debug_toolbar"]
-    MIDDLEWARE = [*MIDDLEWARE, "debug_toolbar.middleware.DebugToolbarMiddleware"]
+    INSTALLED_APPS = [*INSTALLED_APPS,
+                      "debug_toolbar",
+                      "django_browser_reload"]
+    MIDDLEWARE = [*MIDDLEWARE,
+                  "debug_toolbar.middleware.DebugToolbarMiddleware",
+                  "django_browser_reload.middleware.BrowserReloadMiddleware"]
     import socket
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     docker_ips = [ip[:-1] + "1" for ip in ips]
@@ -184,6 +196,17 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
