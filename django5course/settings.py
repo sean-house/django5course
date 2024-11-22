@@ -33,9 +33,9 @@ ALLOWED_HOSTS = ["*"]
 
 ADMIN_URL = os.getenv("ADMIN_URL", "admin/")
 
-if ENV_STATE == "production":
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+# if ENV_STATE == "production":
+#     SESSION_COOKIE_SECURE = True
+#     CSRF_COOKIE_SECURE = True
 
 # Adding capability for django-allauth to work
 AUTHENTICATION_BACKENDS = [
