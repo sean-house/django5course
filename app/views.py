@@ -1,6 +1,6 @@
 """Views for the app."""
 
-import time
+import markdown
 from typing import Any
 
 from django.contrib import messages
@@ -69,6 +69,18 @@ class ArticleDetailView(DetailView):
     fields = ["title", "content",  "twitter_post", "status"]  # noqa: RUF012
     success_url = reverse_lazy("home")
     context_object_name = "article"
+
+    # Add code to convert markdown to HTML
+    md = markdown.Markdown(extensions=["fenced_code", "tables", "attr_list", "def_list", "nl2br"])
+
+    def get_context_data(self, **kwargs):
+        """Convert markdown in article.content to HTML."""
+        md = markdown.Markdown(extensions=["fenced_code", "tables", "attr_list", "def_list", "nl2br"])
+        context = super().get_context_data(**kwargs)
+        html = md.convert(context["article"].content)
+        context["markdown_html"] = html
+        return context
+
 
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):

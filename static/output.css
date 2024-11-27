@@ -785,6 +785,14 @@ select {
   z-index: 10;
 }
 
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -839,6 +847,10 @@ select {
   margin-top: 1rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -857,6 +869,10 @@ select {
 
 .flex {
   display: flex;
+}
+
+.flow-root {
+  display: flow-root;
 }
 
 .hidden {
@@ -911,6 +927,10 @@ select {
   max-width: 42rem;
 }
 
+.max-w-5xl {
+  max-width: 64rem;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -961,6 +981,10 @@ select {
   align-items: center;
 }
 
+.justify-start {
+  justify-content: flex-start;
+}
+
 .justify-end {
   justify-content: flex-end;
 }
@@ -1003,6 +1027,12 @@ select {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+}
+
+.space-y-5 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
 }
 
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
@@ -1239,6 +1269,11 @@ select {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
+.text-sky-500 {
+  --tw-text-opacity: 1;
+  color: rgb(14 165 233 / var(--tw-text-opacity));
+}
+
 .text-sky-600 {
   --tw-text-opacity: 1;
   color: rgb(2 132 199 / var(--tw-text-opacity));
@@ -1470,6 +1505,39 @@ input[type="radio"]:focus {
 .article-status-inprogress {
   --tw-bg-opacity: 1;
   background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+}
+
+.article-content h1 {
+  margin-bottom: 0.5rem;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.article-content ul {
+  list-style-type: circle;
+  list-style-position: outside;
+  padding-left: 1rem;
+}
+
+.article-content ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-left: 1rem;
+}
+
+.article-content blockquote {
+  font-family:'Courier New', Courier, monospace;
+  padding-left: 2rem;
+}
+
+.article-content a {
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(14 165 233 / var(--tw-text-opacity));
+}
+
+.article-content a:hover {
+  text-decoration-line: underline;
 }
 
 .hover\:underline:hover {

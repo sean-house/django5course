@@ -76,3 +76,28 @@ input[type="radio"] {
 .article-status-inprogress {
     @apply bg-amber-200;
 }
+
+.article-content h1 {
+    @apply text-3xl mb-2;
+}
+
+.article-content ul {
+    list-style-type: circle;
+    list-style-position: outside;
+    padding-left: 1rem;
+}
+
+.article-content ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    padding-left: 1rem;
+}
+
+.article-content blockquote {
+    font-family:'Courier New', Courier, monospace;
+    padding-left: 2rem;
+}
+
+.article-content a {
+    @apply text-sky-500 font-semibold hover:underline;
+}

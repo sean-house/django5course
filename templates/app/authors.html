@@ -40,14 +40,18 @@
             <ul>
                 {% for article in articles %}
                     <li>
-                        <hr>
-                        <a 
-                        class="text-2xl flex items-center" 
-                        href="{% url 'update_article' article.id %}">
-                        {{ article.title }}
-                        <span class="ml-2 px-4 py-0.5 text-xs rounded-sm uppercase article-status-{{article.status}}">{{ article.status }}</span>
-                        </a>
-                        <p class="text-sm text-gray-600">{{ article.word_count }} word{{ article.word_count | pluralize}}</p>
+                        <div class="flex items-center">
+                            <hr>
+                            <a 
+                            class="text-2xl flex items-center text-sky-500 hover:underline" 
+                            href="{% url 'update_article' article.id %}">
+                            {{ article.title }}
+                            </a>
+                            <span class="ml-2 px-4 mb-2 text-xs rounded-sm uppercase article-status-{{article.status}}">{{ article.status }}</span>
+                        </div>
+                        <p class="text-sm text-gray-600">{{ article.word_count }} word{{ article.word_count | pluralize}}  |  
+                            <a class="text-sky-500 font-semibold" href="{% url 'article_detail' article.id %}">View article</a>
+                        </p>
                     </li>
                 {% endfor %}
                 <hr>
