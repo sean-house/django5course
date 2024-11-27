@@ -4,7 +4,7 @@ poetry run python manage.py migrate
 
 if [[ "$ENV_STATE" == "production" ]]; then
     echo "Running in production mode"
-    poetry run gunicorn django5course.wsgi --workers $GUNICORN_WORKERS --forwarded-allow-ips "*" --log-level "debug"
+    poetry run gunicorn django5course.wsgi --bind 0.0.0.0:8000 --workers $GUNICORN_WORKERS --forwarded-allow-ips "*" --log-level "debug"
 else
     echo "Running in development mode"
     poetry run python manage.py runserver 0.0.0.0:8000

@@ -5,7 +5,6 @@ db.sqlite3
 node_modules/
 staticfiles/
 */__pycache__/
-output.css
 
 
 UC-1f3f26ef-c1ae-46d0-97f7-08d9c28395f8.pdf
