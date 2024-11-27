@@ -8,17 +8,34 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, DetailView
 
 from app.models import Article
 
 
 # Create your views here.
+
+class PublicListView(ListView):
+    """View for the public list of Articles."""
+
+    model = Article
+    template_name = "app/public.html"
+    context_object_name = "articles"
+    paginate_by = 5
+
+    def get_queryset(self) -> QuerySet[Any]:
+        """Override get_queryset to filter by creator."""
+        search = self.request.GET.get("search")
+        queryset = super().get_queryset().filter(status="published")
+        if search:
+            queryset = queryset.filter(title__search=search)
+        return queryset.order_by("-created_at")
+
 class ArticleListView(LoginRequiredMixin, ListView):
     """View for the list of Articles."""
 
     model = Article
-    template_name = "app/home.html"
+    template_name = "app/authors.html"
     context_object_name = "articles"
     paginate_by = 5
 
@@ -36,12 +53,22 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     template_name = "app/article_create.html"
     fields = ["title", "content", "twitter_post", "status"]  # noqa: RUF012
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("authors")
 
     def form_valid(self, form):  # noqa: ANN001, ANN201
         """Override form_valid to set the creator field."""
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+
+class ArticleDetailView(DetailView):
+    """View for updating an Article."""
+
+    model = Article
+    template_name = "app/article_view.html"
+    fields = ["title", "content",  "twitter_post", "status"]  # noqa: RUF012
+    success_url = reverse_lazy("home")
+    context_object_name = "article"
 
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -50,7 +77,7 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article
     template_name = "app/article_update.html"
     fields = ["title", "content",  "twitter_post", "status"]  # noqa: RUF012
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("authors")
     context_object_name = "article"
 
     def test_func(self) -> bool:

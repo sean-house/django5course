@@ -162,8 +162,8 @@ EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 
 
 # Login and logout redirects - necessary since we don't want users to go to /accounts/profile (which is the default)
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "account_login"
+LOGIN_REDIRECT_URL = "authors"
+LOGOUT_REDIRECT_URL = "home"
 
 # Allauth settings
 ACCOUNT_AUTHENTICATION_METHOD = "email"
