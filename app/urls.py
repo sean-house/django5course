@@ -5,9 +5,9 @@ from django.urls import path
 from app.views import (
     ArticleCreateView,
     ArticleDeleteView,
+    ArticleDetailView,
     ArticleListView,
     ArticleUpdateView,
-    ArticleDetailView,
     PublicListView,
 )
 

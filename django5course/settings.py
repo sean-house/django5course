@@ -33,9 +33,9 @@ ALLOWED_HOSTS = ["*"]
 
 ADMIN_URL = os.getenv("ADMIN_URL", "admin/")
 
-# if ENV_STATE == "production":
-#     SESSION_COOKIE_SECURE = True
-#     CSRF_COOKIE_SECURE = True
+if ENV_STATE == "production":
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Adding capability for django-allauth to work
 AUTHENTICATION_BACKENDS = [
@@ -171,7 +171,10 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True  # Don't require users to confirm their password twice if verifying
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_FORMS = {
+    "signup": "app.forms.CustomSignupForm",
+}
 
 
 # Internationalization

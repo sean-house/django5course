@@ -1,17 +1,16 @@
 """Views for the app."""
 
-import markdown
 from typing import Any
 
+import markdown
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from app.models import Article
-
 
 # Create your views here.
 
@@ -29,7 +28,7 @@ class PublicListView(ListView):
         queryset = super().get_queryset().filter(status="published")
         if search:
             queryset = queryset.filter(title__search=search)
-        return queryset.order_by("-created_at")
+        return queryset.order_by("-updated_at")
 
 class ArticleListView(LoginRequiredMixin, ListView):
     """View for the list of Articles."""

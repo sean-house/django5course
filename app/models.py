@@ -20,7 +20,7 @@ class UserProfile(AbstractUser):
     objects = UserProfileManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []  # noqa: RUF012
+    REQUIRED_FIELDS = ["first_name", "last_name"]  # noqa: RUF012
 
     @property
     def article_count(self):  # noqa: ANN201
